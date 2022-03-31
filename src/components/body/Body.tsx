@@ -13,7 +13,7 @@ export const Body = () => {
   // ]
   //чтобы отрисовало то, что лежит под тем же номером (памяти), нужен хук
 
-  let [tasks1, setTasks1] = useState(
+  let [tasks, setTasks] = useState(
       [
         {id: 1, title: 'HTML&CSS', isDone: true},
         {id: 2, title: 'JS', isDone: true},
@@ -24,7 +24,7 @@ export const Body = () => {
   )
 
   const removeTask = (newId: number) => {
-    setTasks1(tasks1.filter(task => task.id !== newId))
+    setTasks(tasks.filter(task => task.id !== newId))
   }
 
 
@@ -34,20 +34,28 @@ export const Body = () => {
     setNameButton(nameButton)
   }
 
-  let filterTasks1 = tasks1
+  let filterTasks = tasks;
   if (nameButton === 'Active') {
-    filterTasks1 = tasks1.filter(task => !task.isDone)
+    filterTasks = tasks.filter(task => !task.isDone)
   } else if (nameButton === 'Completed') {
-    filterTasks1 = tasks1.filter(task => task.isDone)
+    filterTasks = tasks.filter(task => task.isDone)
   }
 
+
+
+  const addTask = (newTaskTitle: string) => {
+    let newTask = {id: 6, title: newTaskTitle, isDone: false};
+    setTasks([ newTask,...tasks])
+  }
 
   return (
       <div className={classes.bodyBlock}>
         <Todolist title={'What to learn 1'}
-                  tasks={filterTasks1}
+                  tasks={filterTasks}
                   removeTask={removeTask}
-                  tasksFilter={tasksFilter}/>
+                  tasksFilter={tasksFilter}
+                  addTask={addTask}
+        />
       </div>
   )
 }
