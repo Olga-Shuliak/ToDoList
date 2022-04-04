@@ -44,7 +44,7 @@ export const Body = () => {
 
 
   const addTask = (newTaskTitle: string) => {
-    let newTask = {id: 6, title: newTaskTitle, isDone: false};
+    let newTask = {id: Math.random()*100, title: newTaskTitle, isDone: false};
     setTasks([ newTask,...tasks])
   }
 
