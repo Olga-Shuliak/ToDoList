@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './Todolist.module.css';
+import {Button} from '../Button';
 
 type Todolist = {
   title: string
@@ -50,7 +51,10 @@ export const Todolist = (props: Todolist) => {
           <input value={newTaskTitle}
                  onKeyPress={onKeyPressHandler}
                  onChange={onChangeHandler}/>
-          <button onClick={addTaskHandler}>+</button>
+          {/*<button onClick={addTaskHandler}>+</button>*/}
+
+          <Button name={'+'}  callback={addTaskHandler}/>
+
         </div>
         <ul className={classes.tasks}>
           {props.tasks.map((task, index) => {
@@ -58,11 +62,14 @@ export const Todolist = (props: Todolist) => {
             return (
                 <li key={task.id}>
                   {/*<button onClick={() => props.removeTask(task.id)}>Delete</button>*/}
-                  <button onClick={() => removeTaskHandler(task.id)}>Delete</button>
-                  <input type="checkbox" checked={task.isDone}/>
+                  {/*<button onClick={() => removeTaskHandler(task.id)}>Delete</button>*/}
+
+                  <Button name={'x'} callback={() => removeTaskHandler(task.id)}/>
+
+                  <input type='checkbox' checked={task.isDone}/>
                   <span>{task.title}</span>
-                </li>
-            )
+          </li>
+          )
           })}
         </ul>
         <div>
@@ -70,9 +77,13 @@ export const Todolist = (props: Todolist) => {
           {/*<button onClick={() => props.tasksFilter('Active')}>Active</button>*/}
           {/*<button onClick={() => props.tasksFilter('Completed')}>Completed</button>*/}
 
-          <button onClick={() => tasksFilterHandler('All')}>All</button>
-          <button onClick={() => tasksFilterHandler('Active')}>Active</button>
-          <button onClick={() => tasksFilterHandler('Completed')}>Completed</button>
+          {/*<button onClick={() => tasksFilterHandler('All')}>All</button>*/}
+          {/*<button onClick={() => tasksFilterHandler('Active')}>Active</button>*/}
+          {/*<button onClick={() => tasksFilterHandler('Completed')}>Completed</button>*/}
+
+          <Button name={'All'} callback={() => tasksFilterHandler('All')}/>
+          <Button name={'Active'} callback={() => tasksFilterHandler('Active')}/>
+          <Button name={'Completed'} callback={() => tasksFilterHandler('Completed')}/>
         </div>
       </div>
   )
