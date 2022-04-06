@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './Todolist.module.css';
 import {Button} from '../Button';
+import {FullInput} from '../FullInput';
 
 type Todolist = {
   title: string
@@ -17,24 +18,24 @@ type ObjInArray = {
 
 export const Todolist = (props: Todolist) => {
 
-  let [newTaskTitle, setNewTaskTitle] = useState('')
-
-
-  const addTaskHandler = () => {
-    props.addTask(newTaskTitle);
-    setNewTaskTitle('');
-  }
-
-  const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    // if (event.charCode===13) {
-    if (event.key == 'Enter') {
-      addTaskHandler();
-    }
-  }
-
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskTitle(event.currentTarget.value)
-  }
+  // let [newTaskTitle, setNewTaskTitle] = useState('')
+  //
+  //
+  // const addTaskHandler = () => {
+  //   props.addTask(newTaskTitle);
+  //   setNewTaskTitle('');
+  // }
+  //
+  // const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+  //   // if (event.charCode===13) {
+  //   if (event.key == 'Enter') {
+  //     addTaskHandler();
+  //   }
+  // }
+  //
+  // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setNewTaskTitle(event.currentTarget.value)
+  // }
 
   const tasksFilterHandler = (filterValue: string) => {
     props.tasksFilter(filterValue);
@@ -48,16 +49,19 @@ export const Todolist = (props: Todolist) => {
       <div className={classes.wrapper}>
         <h3>{props.title}</h3>
         <div>
-          <input value={newTaskTitle}
-                 onKeyPress={onKeyPressHandler}
-                 onChange={onChangeHandler}/>
-          {/*<button onClick={addTaskHandler}>+</button>*/}
+          {/*<input value={newTaskTitle}*/}
+          {/*       onKeyPress={onKeyPressHandler}*/}
+          {/*       onChange={onChangeHandler}/>*/}
 
-          <Button name={'+'}  callback={addTaskHandler}/>
+          {/*/!*<button onClick={addTaskHandler}>+</button>*!/*/}
+
+          {/*<Button name={'+'}  callback={addTaskHandler}/>*/}
+
+          <FullInput callback={props.addTask}/>
 
         </div>
         <ul className={classes.tasks}>
-          {props.tasks.map((task, index) => {
+          {props.tasks.map((task,  index) => {
             //debugger
             return (
                 <li key={task.id}>
