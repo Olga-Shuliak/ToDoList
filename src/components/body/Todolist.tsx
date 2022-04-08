@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './Todolist.module.css';
 import {Button} from '../Button';
-import {FullInput} from '../FullInput';
+import {Input} from '../Input';
 
 type Todolist = {
   title: string
@@ -18,24 +18,24 @@ type ObjInArray = {
 
 export const Todolist = (props: Todolist) => {
 
-  // let [newTaskTitle, setNewTaskTitle] = useState('')
-  //
-  //
-  // const addTaskHandler = () => {
-  //   props.addTask(newTaskTitle);
-  //   setNewTaskTitle('');
-  // }
-  //
-  // const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-  //   // if (event.charCode===13) {
-  //   if (event.key == 'Enter') {
-  //     addTaskHandler();
-  //   }
-  // }
-  //
-  // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setNewTaskTitle(event.currentTarget.value)
-  // }
+  let [newTaskTitle, setNewTaskTitle] = useState('')
+
+
+  const addTaskHandler = () => {
+    props.addTask(newTaskTitle);
+    setNewTaskTitle('');
+  }
+
+  const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    // if (event.charCode===13) {
+    if (event.key == 'Enter') {
+      addTaskHandler();
+    }
+  }
+
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewTaskTitle(event.currentTarget.value)
+  }
 
   const tasksFilterHandler = (filterValue: string) => {
     props.tasksFilter(filterValue);
@@ -57,11 +57,16 @@ export const Todolist = (props: Todolist) => {
 
           {/*<Button name={'+'}  callback={addTaskHandler}/>*/}
 
-          <FullInput callback={props.addTask}/>
+          {/*<FullInput callback={props.addTask}/>*/}
+
+          <Input newTaskTitle={newTaskTitle}
+                 onChangeHandler={onChangeHandler}
+                 onKeyPressHandler={onKeyPressHandler}/>
+          <Button name={'+'} callback={addTaskHandler}/>
 
         </div>
         <ul className={classes.tasks}>
-          {props.tasks.map((task,  index) => {
+          {props.tasks.map((task, index) => {
             //debugger
             return (
                 <li key={task.id}>
@@ -70,10 +75,10 @@ export const Todolist = (props: Todolist) => {
 
                   <Button name={'x'} callback={() => removeTaskHandler(task.id)}/>
 
-                  <input type='checkbox' checked={task.isDone}/>
+                  <input type="checkbox" checked={task.isDone}/>
                   <span>{task.title}</span>
-          </li>
-          )
+                </li>
+            )
           })}
         </ul>
         <div>
