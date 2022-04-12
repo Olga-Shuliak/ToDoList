@@ -10,3 +10,10 @@
 .tasks > li {
     list-style-type: none;
 }
+
+.errorMessage {
+    color: red;
+}
+.isDane {
+    opacity: 0.5;
+}

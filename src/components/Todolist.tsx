@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './Todolist.module.css';
-import {Button} from '../Button';
-import {Input} from '../Input';
+import {Button} from './Button';
+import {Input} from './Input';
 
 type Todolist = {
   title: string
@@ -9,6 +9,8 @@ type Todolist = {
   removeTask: (id: number) => void
   tasksFilter: (nameButton: string) => void
   addTask: (newTaskTitle: string) => void
+  changeStatusCheckbox: (currentID: number, currentEvent: boolean) => void
+  nameButton: string
 }
 type ObjInArray = {
   id: number
@@ -20,10 +22,15 @@ export const Todolist = (props: Todolist) => {
 
   let [newTaskTitle, setNewTaskTitle] = useState('')
 
+  let [error, setError] = useState<string|null>('')
 
   const addTaskHandler = () => {
-    props.addTask(newTaskTitle);
-    setNewTaskTitle('');
+    if (newTaskTitle.trim() !== '') {
+      props.addTask(newTaskTitle.trim());
+      setNewTaskTitle('');
+    } else {
+      setError('Title is required')
+    }
   }
 
   const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -34,6 +41,7 @@ export const Todolist = (props: Todolist) => {
   }
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setError('');
     setNewTaskTitle(event.currentTarget.value)
   }
 
@@ -44,6 +52,13 @@ export const Todolist = (props: Todolist) => {
   const removeTaskHandler = (id: number) => {
     props.removeTask(id)
   }
+
+  //функция для изменения чекбокса
+  const checkBoxHandler = (currentID: number, currentEvent: boolean) => {
+    props.changeStatusCheckbox(currentID, currentEvent)
+    // console.log(event.currentTarget.checked)
+  }
+
 
   return (
       <div className={classes.wrapper}>
@@ -61,21 +76,30 @@ export const Todolist = (props: Todolist) => {
 
           <Input newTaskTitle={newTaskTitle}
                  onChangeHandler={onChangeHandler}
-                 onKeyPressHandler={onKeyPressHandler}/>
-          <Button name={'+'} callback={addTaskHandler}/>
+                 onKeyPressHandler={onKeyPressHandler}
+                 error={error}/>
+
+          <Button name={'+'}
+                  callback={addTaskHandler}/>
+
+          {error && <div className={classes.errorMessage}>{error}</div>}
 
         </div>
         <ul className={classes.tasks}>
           {props.tasks.map((task, index) => {
-            //debugger
             return (
-                <li key={task.id}>
+                <li key={task.id}
+                className={task.isDone ? classes.isDane : ''}>
                   {/*<button onClick={() => props.removeTask(task.id)}>Delete</button>*/}
                   {/*<button onClick={() => removeTaskHandler(task.id)}>Delete</button>*/}
 
-                  <Button name={'x'} callback={() => removeTaskHandler(task.id)}/>
+                  <Button name={'x'}
+                          callback={() => removeTaskHandler(task.id)}/>
 
-                  <input type="checkbox" checked={task.isDone}/>
+                  <input type="checkbox"
+                         checked={task.isDone}
+                         onChange={(ev) => checkBoxHandler(task.id, ev.currentTarget.checked)}/>
+
                   <span>{task.title}</span>
                 </li>
             )
@@ -90,9 +114,15 @@ export const Todolist = (props: Todolist) => {
           {/*<button onClick={() => tasksFilterHandler('Active')}>Active</button>*/}
           {/*<button onClick={() => tasksFilterHandler('Completed')}>Completed</button>*/}
 
-          <Button name={'All'} callback={() => tasksFilterHandler('All')}/>
-          <Button name={'Active'} callback={() => tasksFilterHandler('Active')}/>
-          <Button name={'Completed'} callback={() => tasksFilterHandler('Completed')}/>
+          <Button name={'All'}
+                  callback={() => tasksFilterHandler('All')}
+                  nameButton={props.nameButton}/>
+          <Button name={'Active'}
+                  callback={() => tasksFilterHandler('Active')}
+                  nameButton={props.nameButton}/>
+          <Button name={'Completed'}
+                  callback={() => tasksFilterHandler('Completed')}
+                  nameButton={props.nameButton}/>
         </div>
       </div>
   )
