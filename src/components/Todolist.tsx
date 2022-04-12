@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './Todolist.module.css';
 import {Button} from './Button';
 import {Input} from './Input';
+import {CheckBox} from './CheckBox';
 
 type Todolist = {
   title: string
@@ -27,10 +28,12 @@ export const Todolist = (props: Todolist) => {
   const addTaskHandler = () => {
     if (newTaskTitle.trim() !== '') {
       props.addTask(newTaskTitle.trim());
-      setNewTaskTitle('');
+      // setNewTaskTitle('');
     } else {
       setError('Title is required')
+      // setNewTaskTitle('')
     }
+    setNewTaskTitle('')
   }
 
   const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -54,10 +57,10 @@ export const Todolist = (props: Todolist) => {
   }
 
   //функция для изменения чекбокса
-  const checkBoxHandler = (currentID: number, currentEvent: boolean) => {
-    props.changeStatusCheckbox(currentID, currentEvent)
-    // console.log(event.currentTarget.checked)
-  }
+  // const checkBoxHandler = (currentID: number, currentEvent: boolean) => {
+  //   props.changeStatusCheckbox(currentID, currentEvent)
+  //   // console.log(event.currentTarget.checked)
+  // }
 
 
   return (
@@ -86,7 +89,7 @@ export const Todolist = (props: Todolist) => {
 
         </div>
         <ul className={classes.tasks}>
-          {props.tasks.map((task, index) => {
+          {props.tasks.map((task) =>{
             return (
                 <li key={task.id}
                 className={task.isDone ? classes.isDane : ''}>
@@ -96,9 +99,12 @@ export const Todolist = (props: Todolist) => {
                   <Button name={'x'}
                           callback={() => removeTaskHandler(task.id)}/>
 
-                  <input type="checkbox"
-                         checked={task.isDone}
-                         onChange={(ev) => checkBoxHandler(task.id, ev.currentTarget.checked)}/>
+                  <CheckBox taskIsDone={task.isDone}
+                            callBack={props.changeStatusCheckbox}
+                  id={task.id}/>
+                  {/*<input type="checkbox"*/}
+                  {/*       checked={task.isDone}*/}
+                  {/*       onChange={(ev) => checkBoxHandler(task.id, ev.currentTarget.checked)}/>*/}
 
                   <span>{task.title}</span>
                 </li>
