@@ -4,6 +4,7 @@ import {Button} from './Button';
 import {Input} from './Input';
 import {CheckBox} from './CheckBox';
 import {FilterValueType} from '../App';
+import {FullInput} from './FullInput';
 
 type Todolist = {
   todoListID: number
@@ -77,16 +78,8 @@ export const Todolist = (props: Todolist) => {
           <Button name={'X'}
                   callback={()=>removeTodoListHandler(props.todoListID)}/>
         </h3>
+
         <div>
-          {/*<input value={newTaskTitle}9*/}
-          {/*       onKeyPress={onKeyPressHandler}*/}
-          {/*       onChange={onChangeHandler}/>*/}
-
-          {/*/!*<button onClick={addTaskHandler}>+</button>*!/*/}
-
-          {/*<Button name={'+'}  callback={addTaskHandler}/>*/}
-
-          {/*<FullInput callback={props.addTask}/>*/}
 
           <Input newTaskTitle={newTaskTitle}
                  onChangeHandler={onChangeHandler}
@@ -124,14 +117,6 @@ export const Todolist = (props: Todolist) => {
           })}
         </ul>
         <div>
-          {/*<button onClick={() => props.tasksFilter('All')}>All</button>*/}
-          {/*<button onClick={() => props.tasksFilter('Active')}>Active</button>*/}
-          {/*<button onClick={() => props.tasksFilter('Completed')}>Completed</button>*/}
-
-          {/*<button onClick={() => tasksFilterHandler('All')}>All</button>*/}
-          {/*<button onClick={() => tasksFilterHandler('Active')}>Active</button>*/}
-          {/*<button onClick={() => tasksFilterHandler('Completed')}>Completed</button>*/}
-
           <Button name={'All'}
                   callback={() => tasksFilterHandler(props.todoListID, 'All')}
                   nameButton={props.nameButton}/>

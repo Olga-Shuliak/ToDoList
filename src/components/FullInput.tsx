@@ -1,8 +1,10 @@
 import {Button} from './Button';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import classes from './Input.module.css';
 
-type FullInputPropsType ={
-  callback:(newTaskTitle:string)=>void
+type FullInputPropsType = {
+  callback: (newTaskTitle: string) => void
+  error: string | null
 }
 
 export const FullInput = (props: FullInputPropsType) => {
@@ -28,11 +30,13 @@ export const FullInput = (props: FullInputPropsType) => {
   return (
       <div>
 
-        <input value={newTaskTitle}
+        <input className={props.error ? classes.error : ''}
+               value={newTaskTitle}
                onKeyPress={onKeyPressHandler}
                onChange={onChangeHandler}/>
 
-        <Button name={'+'}  callback={addTaskHandler}/>
+        <Button name={'+'}
+                callback={addTaskHandler}/>
 
       </div>
   )
