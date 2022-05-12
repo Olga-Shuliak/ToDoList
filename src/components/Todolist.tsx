@@ -1,10 +1,10 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import classes from './Todolist.module.css';
 import {Button} from './Button';
 import {Input} from './Input';
 import {CheckBox} from './CheckBox';
 import {FilterValueType} from '../App';
-import {FullInput} from './FullInput';
+import {EditableSpan} from './EditableSpan';
 
 type Todolist = {
   todoListID: number
@@ -40,7 +40,7 @@ export const Todolist = (props: Todolist) => {
     setNewTaskTitle('')
   }
 
-  const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+  const onKeyPressHandler = (event: any) => {
     // if (event.charCode===13) {
     if (event.key == 'Enter') {
       addTaskHandler();
@@ -107,11 +107,11 @@ export const Todolist = (props: Todolist) => {
                             todoListID={props.todoListID}
                             callBack={props.changeStatusCheckbox}
                             id={task.id}/>
-                  {/*<input type="checkbox"*/}
-                  {/*       checked={task.isDone}*/}
-                  {/*       onChange={(ev) => checkBoxHandler(task.id, ev.currentTarget.checked)}/>*/}
 
-                  <span>{task.title}</span>
+                  {/*<span>{task.title}</span>*/}
+                  {/*делаем заменяемый спан*/}
+                  <EditableSpan oldTitle={task.title}/>
+
                 </li>
             )
           })}
