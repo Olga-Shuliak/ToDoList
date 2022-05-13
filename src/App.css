@@ -2,4 +2,8 @@
     display: flex;
     flex-wrap: wrap;
 }
-
+.wrapperNewTodoList {
+    margin: 10px;
+    padding: 10px;
+    background-color: #c7eec7;
+}

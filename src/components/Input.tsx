@@ -5,7 +5,7 @@ import classes from './Input.module.css';
 type InputPropsType = {
   newTaskTitle: string
   onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void
-  onKeyPressHandler: (event: KeyboardEvent<Element>) => void
+  onKeyPressHandler: (event: KeyboardEvent<HTMLInputElement>) => void
   error: string | null
 }
 

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Header} from './components/Header';
 import {ObjInArray, Todolist} from './components/Todolist';
-
+import {EddItemForm} from './components/EddItemForm';
 
 
 //types
@@ -52,13 +52,8 @@ function App() {
     setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== newId)})
   }
 
-//кнопки 'All'|'Active'|'Completed' (фильтр имени)
-//let [nameButton, setNameButton] = useState('All')
 
   const tasksFilter = (todoListID: number, nameButton: FilterValueType) => {
-
-    // console.log(todoListID)
-    // setNameButton(nameButton)
 
     //будем менять в стейте todolist
     setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, nameButton: nameButton} : el))
@@ -67,10 +62,21 @@ function App() {
 
 
 //добавляем таску
+
   const addTask = (todoListID: number, newTaskTitle: string) => {
     let newTask = {id: Math.random() * 100, title: newTaskTitle, isDone: false};
     // setTasks([newTask, ...tasks])
     setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
+  }
+
+  //изменяем таску (изменяемый спан)
+  const updateTask = (todoListID: number, taskID: number, newTitle: string) => {
+    setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === taskID ? {...el, title: newTitle} : el)})
+  }
+
+  //изменяем название листа
+  const updateList = (todoListID: number, newTitle: string) => {
+    setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
   }
 
   //меняем статус в чекбоксе
@@ -89,19 +95,25 @@ function App() {
   }
 
   //добавляем целый лист
-  const addTodoList = () => {
+  const addTodoList = (title: string) => {
     let newID = Math.random() * 100;
-    let newTodoList: TodoListsType = {id: newID, title: 'What to learn', nameButton: 'All'};
+    let newTodoList: TodoListsType = {id: newID, title: title, nameButton: 'All'};
     setTodoLists([newTodoList, ...todoLists]);
+    setTasks({...tasks, [newID]: []})
   }
 
   return (
       <div className="App">
         <Header title={'TO DO LIST'}/>
-        <Header title={'My To Do List'}/>
+        {/*<Header title={'My To Do List'}/>*/}
         <div className="listsBlock">
 
+
           {/*добавить новый лист*/}
+          <div className="wrapperNewTodoList">
+            <h3>Create new list</h3>
+            <EddItemForm callback={addTodoList}/>
+          </div>
 
 
           {/*все todo листы*/}
@@ -123,6 +135,8 @@ function App() {
                           changeStatusCheckbox={changeStatusCheckbox}
                           nameButton={el.nameButton}
                           removeTodoList={removeTodoList}
+                          updateTask={updateTask}
+                          updateList={updateList}
                 />
             )
           })

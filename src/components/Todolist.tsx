@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import classes from './Todolist.module.css';
 import {Button} from './Button';
-import {Input} from './Input';
 import {CheckBox} from './CheckBox';
 import {FilterValueType} from '../App';
 import {EditableSpan} from './EditableSpan';
+import {EddItemForm} from './EddItemForm';
 
 type Todolist = {
   todoListID: number
@@ -13,9 +13,11 @@ type Todolist = {
   removeTask: (todoListID: number, id: number) => void
   tasksFilter: (todoListID: number, nameButton: FilterValueType) => void
   addTask: (todoListID: number, newTaskTitle: string) => void
+  updateTask: (todoListID: number, id: number, newTaskTitle: string) => void
+  updateList: (todoListID: number, newTitle: string)=>void
   changeStatusCheckbox: (todoListID: number, currentID: number, currentEvent: boolean) => void
   nameButton: string
-  removeTodoList: (todoListID: number)=>void
+  removeTodoList: (todoListID: number) => void
 }
 export type ObjInArray = {
   id: number
@@ -25,32 +27,11 @@ export type ObjInArray = {
 
 export const Todolist = (props: Todolist) => {
 
-  let [newTaskTitle, setNewTaskTitle] = useState('')
 
-  let [error, setError] = useState<string | null>('')
-
-  const addTaskHandler = () => {
-    if (newTaskTitle.trim() !== '') {
-      props.addTask(props.todoListID, newTaskTitle.trim());
-      // setNewTaskTitle('');
-    } else {
-      setError('Title is required')
-      // setNewTaskTitle('')
-    }
-    setNewTaskTitle('')
+  const addTaskHandler = (newTaskTitle: string) => {
+    props.addTask(props.todoListID, newTaskTitle);
   }
 
-  const onKeyPressHandler = (event: any) => {
-    // if (event.charCode===13) {
-    if (event.key == 'Enter') {
-      addTaskHandler();
-    }
-  }
-
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    setNewTaskTitle(event.currentTarget.value)
-  }
 
   const tasksFilterHandler = (todoListID: number, filterValue: FilterValueType) => {
     props.tasksFilter(todoListID, filterValue);
@@ -60,45 +41,36 @@ export const Todolist = (props: Todolist) => {
     props.removeTask(todoListID, id)
   }
 
-  //функция для изменения чекбокса
-  // const checkBoxHandler = (currentID: number, currentEvent: boolean) => {
-  //   props.changeStatusCheckbox(currentID, currentEvent)
-  //   // console.log(event.currentTarget.checked)
-  // }
-
   //удаляем весь лист
-  const removeTodoListHandler =(todoListID: number)=> {
+  const removeTodoListHandler = (todoListID: number) => {
     props.removeTodoList(todoListID)
   }
+
+  //собираем данные для updateTask, updateList
+  const updateTaskHandler = (taskID: number, newTitle: string) => {
+    props.updateTask(props.todoListID, taskID, newTitle)
+  }
+  const updateListHandler = (newTitle: string) => {
+    props.updateList(props.todoListID, newTitle)
+  }
+
 
   return (
       <div className={classes.wrapper}>
         <h3>
-          {props.title}
+          <EditableSpan oldTitle={props.title}
+                        callback={updateListHandler}/>
           <Button name={'X'}
-                  callback={()=>removeTodoListHandler(props.todoListID)}/>
+                  callback={() => removeTodoListHandler(props.todoListID)}/>
         </h3>
 
-        <div>
+        <EddItemForm callback={addTaskHandler}/>
 
-          <Input newTaskTitle={newTaskTitle}
-                 onChangeHandler={onChangeHandler}
-                 onKeyPressHandler={onKeyPressHandler}
-                 error={error}/>
-
-          <Button name={'+'}
-                  callback={addTaskHandler}/>
-
-          {error && <div className={classes.errorMessage}>{error}</div>}
-
-        </div>
         <ul className={classes.tasks}>
           {props.tasks.map((task) => {
             return (
                 <li key={task.id}
                     className={task.isDone ? classes.isDane : ''}>
-                  {/*<button onClick={() => props.removeTask(task.id)}>Delete</button>*/}
-                  {/*<button onClick={() => removeTaskHandler(task.id)}>Delete</button>*/}
 
                   <Button name={'x'}
                           callback={() => removeTaskHandler(props.todoListID, task.id)}/>
@@ -110,7 +82,10 @@ export const Todolist = (props: Todolist) => {
 
                   {/*<span>{task.title}</span>*/}
                   {/*делаем заменяемый спан*/}
-                  <EditableSpan oldTitle={task.title}/>
+                  <EditableSpan oldTitle={task.title}
+                                callback={
+                                  (newTaskTitle: string) => updateTaskHandler(task.id, newTaskTitle)
+                                }/>
 
                 </li>
             )
