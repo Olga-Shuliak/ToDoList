@@ -1,10 +1,15 @@
 import React from 'react';
 import classes from './Todolist.module.css';
-import {Button} from './Button';
 import {CheckBox} from './CheckBox';
 import {FilterValueType} from '../App';
 import {EditableSpan} from './EditableSpan';
 import {EddItemForm} from './EddItemForm';
+import Button from '@mui/material/Button';
+
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {Paper} from '@mui/material';
+
 
 type Todolist = {
   todoListID: number
@@ -14,7 +19,7 @@ type Todolist = {
   tasksFilter: (todoListID: number, nameButton: FilterValueType) => void
   addTask: (todoListID: number, newTaskTitle: string) => void
   updateTask: (todoListID: number, id: number, newTaskTitle: string) => void
-  updateList: (todoListID: number, newTitle: string)=>void
+  updateList: (todoListID: number, newTitle: string) => void
   changeStatusCheckbox: (todoListID: number, currentID: number, currentEvent: boolean) => void
   nameButton: string
   removeTodoList: (todoListID: number) => void
@@ -56,12 +61,24 @@ export const Todolist = (props: Todolist) => {
 
 
   return (
-      <div className={classes.wrapper}>
+      <Paper
+          // className={classes.wrapper}
+      >
         <h3>
           <EditableSpan oldTitle={props.title}
                         callback={updateListHandler}/>
-          <Button name={'X'}
-                  callback={() => removeTodoListHandler(props.todoListID)}/>
+
+          {/*<ButtonElement name={'X'}*/}
+          {/*               callback={() => removeTodoListHandler(props.todoListID)}/>*/}
+          {/*<Button variant="text"*/}
+          {/*        onClick={() => removeTodoListHandler(props.todoListID)}>x</Button>*/}
+
+          <IconButton aria-label="delete"
+                      size="small"
+                      onClick={() => removeTodoListHandler(props.todoListID)}>
+            <DeleteIcon />
+          </IconButton>
+
         </h3>
 
         <EddItemForm callback={addTaskHandler}/>
@@ -72,8 +89,18 @@ export const Todolist = (props: Todolist) => {
                 <li key={task.id}
                     className={task.isDone ? classes.isDane : ''}>
 
-                  <Button name={'x'}
-                          callback={() => removeTaskHandler(props.todoListID, task.id)}/>
+                  {/*<ButtonElement name={'x'}*/}
+                  {/*               callback={() => removeTaskHandler(props.todoListID, task.id)}/>*/}
+
+                  <Button color="primary"
+                          variant="text"
+                          onClick={() => removeTaskHandler(props.todoListID, task.id)}>x</Button>
+
+                  {/*<IconButton aria-label="delete"*/}
+                  {/*            size="small"*/}
+                  {/*            onClick={() => removeTaskHandler(props.todoListID, task.id)}>*/}
+                  {/*  <DeleteIcon />*/}
+                  {/*</IconButton>*/}
 
                   <CheckBox taskIsDone={task.isDone}
                             todoListID={props.todoListID}
@@ -92,16 +119,42 @@ export const Todolist = (props: Todolist) => {
           })}
         </ul>
         <div>
-          <Button name={'All'}
-                  callback={() => tasksFilterHandler(props.todoListID, 'All')}
-                  nameButton={props.nameButton}/>
-          <Button name={'Active'}
-                  callback={() => tasksFilterHandler(props.todoListID, 'Active')}
-                  nameButton={props.nameButton}/>
-          <Button name={'Completed'}
-                  callback={() => tasksFilterHandler(props.todoListID, 'Completed')}
-                  nameButton={props.nameButton}/>
+          <Button onClick={() => tasksFilterHandler(props.todoListID, 'All')}
+                  variant={'All' === props.nameButton ? 'contained' : 'outlined'}
+                  size="small"
+
+
+          >
+            All
+          </Button>
+          <Button onClick={() => tasksFilterHandler(props.todoListID, 'Active')}
+                  variant={'Active' === props.nameButton ? 'contained' : 'outlined'}
+                  size="small"
+
+
+          >
+            Active
+          </Button>
+          <Button onClick={() => tasksFilterHandler(props.todoListID, 'Completed')}
+                  variant={'Completed' === props.nameButton ? 'contained' : 'outlined'}
+                  size="small"
+
+
+          >
+            Completed
+          </Button>
+
+
+          {/*<ButtonElement name={'All'}*/}
+          {/*               callback={() => tasksFilterHandler(props.todoListID, 'All')}*/}
+          {/*               nameButton={props.nameButton}/>*/}
+          {/*<ButtonElement name={'Active'}*/}
+          {/*               callback={() => tasksFilterHandler(props.todoListID, 'Active')}*/}
+          {/*               nameButton={props.nameButton}/>*/}
+          {/*<ButtonElement name={'Completed'}*/}
+          {/*               callback={() => tasksFilterHandler(props.todoListID, 'Completed')}*/}
+          {/*               nameButton={props.nameButton}/>*/}
         </div>
-      </div>
+      </Paper>
   )
 }

@@ -17,3 +17,6 @@
 .isDane {
     opacity: 0.5;
 }
+.active {
+    background-color: aquamarine;
+}

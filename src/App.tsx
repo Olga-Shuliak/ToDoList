@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Header} from './components/Header';
+import ButtonAppBar from './components/ButtonAppBar';
 import {ObjInArray, Todolist} from './components/Todolist';
 import {EddItemForm} from './components/EddItemForm';
+import Box from '@mui/material/Box';
+import {Paper} from '@mui/material';
 
 
 //types
@@ -104,16 +106,32 @@ function App() {
 
   return (
       <div className="App">
-        <Header title={'TO DO LIST'}/>
+
+        {/*<Header title={'TO DO LIST'}/>*/}
         {/*<Header title={'My To Do List'}/>*/}
-        <div className="listsBlock">
+        <ButtonAppBar title={'TO DO LIST'}/>
+
+        <Box sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            m: 1,
+            width: 250,
+            padding: 4,
+            backgroundColor: 'aliceblue'
+          },
+        }}
+            // className="listsBlock"
+        >
 
 
           {/*добавить новый лист*/}
-          <div className="wrapperNewTodoList">
+          <Paper
+              // className="wrapperNewTodoList"
+          >
             <h3>Create new list</h3>
             <EddItemForm callback={addTodoList}/>
-          </div>
+          </Paper>
 
 
           {/*все todo листы*/}
@@ -125,25 +143,26 @@ function App() {
               filterTasks = tasks[el.id].filter(task => task.isDone)
             }
             return (
-                <Todolist key={el.id}
-                          todoListID={el.id}
-                          title={el.title}
-                          tasks={filterTasks}
-                          removeTask={removeTask}
-                          tasksFilter={tasksFilter}
-                          addTask={addTask}
-                          changeStatusCheckbox={changeStatusCheckbox}
-                          nameButton={el.nameButton}
-                          removeTodoList={removeTodoList}
-                          updateTask={updateTask}
-                          updateList={updateList}
-                />
+                  <Todolist key={el.id}
+                            todoListID={el.id}
+                            title={el.title}
+                            tasks={filterTasks}
+                            removeTask={removeTask}
+                            tasksFilter={tasksFilter}
+                            addTask={addTask}
+                            changeStatusCheckbox={changeStatusCheckbox}
+                            nameButton={el.nameButton}
+                            removeTodoList={removeTodoList}
+                            updateTask={updateTask}
+                            updateList={updateList}
+                  />
+
             )
           })
           }
 
 
-        </div>
+        </Box>
 
       </div>
   );

@@ -1,4 +1,4 @@
-import {Button} from './Button';
+import {ButtonElement} from './ButtonElement';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import classes from './Input.module.css';
 
@@ -35,8 +35,8 @@ export const FullInput = (props: FullInputPropsType) => {
                onKeyPress={onKeyPressHandler}
                onChange={onChangeHandler}/>
 
-        <Button name={'+'}
-                callback={addTaskHandler}/>
+        <ButtonElement name={'+'}
+                       callback={addTaskHandler}/>
 
       </div>
   )

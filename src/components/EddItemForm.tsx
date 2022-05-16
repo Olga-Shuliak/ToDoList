@@ -1,13 +1,13 @@
 import classes from './Input.module.css';
-import {Button} from './Button';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button} from '@mui/material';
 
 type EddItemFormPropsType = {
-  callback: (newTaskTitle: string)=>void
+  callback: (newTaskTitle: string) => void
 }
 
 
-export const EddItemForm = (props:EddItemFormPropsType) => {
+export const EddItemForm = (props: EddItemFormPropsType) => {
 
   let [newTaskTitle, setNewTaskTitle] = useState('')
 
@@ -43,8 +43,12 @@ export const EddItemForm = (props:EddItemFormPropsType) => {
                onChange={onChangeHandler}
                onKeyPress={onKeyPressHandler}/>
 
-        <Button name={'+'}
-                callback={addTask}/>
+        {/*<ButtonElement name={'+'}*/}
+        {/*               callback={addTask}/>*/}
+
+        <Button onClick={addTask}
+                variant="text"
+                size="small">+</Button>
 
         {error && <div className={classes.errorMessage}>{error}</div>}
 
