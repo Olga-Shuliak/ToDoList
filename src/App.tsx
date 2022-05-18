@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import ButtonAppBar from './components/ButtonAppBar';
 import {ObjInArray, Todolist} from './components/Todolist';
 import {EddItemForm} from './components/EddItemForm';
 import Box from '@mui/material/Box';
 import {Paper} from '@mui/material';
+import {removeTodoListAC, tasksFilterAC, TodoListsReducer, updateListAC} from './reducers/TodoListsReducer';
 
 
 //types
@@ -27,10 +28,16 @@ function App() {
 
   let todoListID1 = 1;
   let todoListID2 = 2;
-  let [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
+  // let [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
+  //   {id: todoListID1, title: 'What to learn', nameButton: 'All'},
+  //   {id: todoListID2, title: 'What to buy', nameButton: 'All'}
+  // ])
+
+  let [todoLists, TodoListsDispatch] = useReducer(TodoListsReducer,[
     {id: todoListID1, title: 'What to learn', nameButton: 'All'},
     {id: todoListID2, title: 'What to buy', nameButton: 'All'}
   ])
+
   let [tasks, setTasks] = useState<taskObjectType>(
       {
         [todoListID1]: [
@@ -57,8 +64,10 @@ function App() {
 
   const tasksFilter = (todoListID: number, nameButton: FilterValueType) => {
 
+    TodoListsDispatch(tasksFilterAC(todoListID, nameButton))
+
     //будем менять в стейте todolist
-    setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, nameButton: nameButton} : el))
+    // setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, nameButton: nameButton} : el))
     //берем функцию, которая записывает значение(теперь мапимся по элементам(если в элементе=>есть еl.id точно такой как у нас приходит todoListID ? {делай копию всего этого el, и у него в nameButton запиши приходящий в функцию nameButton} : оставь el как есть
   }
 
@@ -78,7 +87,8 @@ function App() {
 
   //изменяем название листа
   const updateList = (todoListID: number, newTitle: string) => {
-    setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
+    // setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
+    TodoListsDispatch(updateListAC(todoListID,newTitle))
   }
 
   //меняем статус в чекбоксе
@@ -92,16 +102,18 @@ function App() {
 
   //удаляем весь лист
   const removeTodoList = (todoListID: number) => {
-    setTodoLists(todoLists.filter(el => el.id !== todoListID));
-    delete tasks[todoListID];
+    // setTodoLists(todoLists.filter(el => el.id !== todoListID));
+    // delete tasks[todoListID];
+    TodoListsDispatch(removeTodoListAC(todoListID))
   }
 
   //добавляем целый лист
   const addTodoList = (title: string) => {
-    let newID = Math.random() * 100;
-    let newTodoList: TodoListsType = {id: newID, title: title, nameButton: 'All'};
-    setTodoLists([newTodoList, ...todoLists]);
-    setTasks({...tasks, [newID]: []})
+    console.log('this is new todo list')
+    // let newID = Math.random() * 100;
+    // let newTodoList: TodoListsType = {id: newID, title: title, nameButton: 'All'};
+    // setTodoLists([newTodoList, ...todoLists]);
+    // setTasks({...tasks, [newID]: []})
   }
 
   return (
