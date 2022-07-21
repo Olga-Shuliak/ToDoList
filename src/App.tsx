@@ -5,7 +5,7 @@ import {ObjInArray, Todolist} from './components/Todolist';
 import {EddItemForm} from './components/EddItemForm';
 import Box from '@mui/material/Box';
 import {Paper} from '@mui/material';
-import {removeTodoListAC, tasksFilterAC, TodoListsReducer, updateListAC} from './reducers/TodoListsReducer';
+import {removeTodoListAC, tasksFilterAC, todoListsReducer, updateListAC} from './reducers/todoListsReducer';
 
 
 //types
@@ -33,7 +33,7 @@ function App() {
   //   {id: todoListID2, title: 'What to buy', nameButton: 'All'}
   // ])
 
-  let [todoLists, TodoListsDispatch] = useReducer(TodoListsReducer,[
+  let [todoLists, TodoListsDispatch] = useReducer(todoListsReducer,[
     {id: todoListID1, title: 'What to learn', nameButton: 'All'},
     {id: todoListID2, title: 'What to buy', nameButton: 'All'}
   ])
