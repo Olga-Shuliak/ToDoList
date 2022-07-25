@@ -6,19 +6,20 @@ import {EddItemForm} from './components/EddItemForm';
 import Box from '@mui/material/Box';
 import {Paper} from '@mui/material';
 import {removeTodoListAC, tasksFilterAC, todoListsReducer, updateListAC} from './reducers/todoListsReducer';
+import { v4 } from 'uuid';
 
-
+console.log(v4())
 //types
 export type TodoListsType = {
-  id: number
+  id: string
   title: string
   nameButton: FilterValueType
 }
 
 export type FilterValueType = 'All' | 'Active' | 'Completed'
 
-export type taskObjectType = {
-  [key: number]: Array<ObjInArray>
+export type TaskObjectType = {
+  [key: string]: Array<ObjInArray>
 }
 
 //-----------------------------------------
@@ -26,8 +27,8 @@ export type taskObjectType = {
 
 function App() {
 
-  let todoListID1 = 1;
-  let todoListID2 = 2;
+  let todoListID1 = '1';
+  let todoListID2 = '2';
   // let [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
   //   {id: todoListID1, title: 'What to learn', nameButton: 'All'},
   //   {id: todoListID2, title: 'What to buy', nameButton: 'All'}
@@ -38,31 +39,31 @@ function App() {
     {id: todoListID2, title: 'What to buy', nameButton: 'All'}
   ])
 
-  let [tasks, setTasks] = useState<taskObjectType>(
+  let [tasks, setTasks] = useState<TaskObjectType>(
       {
         [todoListID1]: [
-          {id: 1, title: 'HTML&CSS', isDone: true},
-          {id: 2, title: 'JS', isDone: true},
-          {id: 3, title: 'React', isDone: false},
-          {id: 4, title: 'Redux', isDone: false},
-          {id: 5, title: 'Angular', isDone: false}
+          {id: '1', title: 'HTML&CSS', isDone: true},
+          {id: '2', title: 'JS', isDone: true},
+          {id: '3', title: 'React', isDone: false},
+          {id: '4', title: 'Redux', isDone: false},
+          {id: '5', title: 'Angular', isDone: false}
         ],
         [todoListID2]: [
-          {id: 1, title: 'Book HTML&CSS', isDone: true},
-          {id: 2, title: 'Book JS', isDone: true},
-          {id: 3, title: 'Book React', isDone: false},
-          {id: 4, title: 'Book Redux', isDone: false},
-          {id: 5, title: 'Book Angular', isDone: false}
+          {id: '1', title: 'Book HTML&CSS', isDone: true},
+          {id: '2', title: 'Book JS', isDone: true},
+          {id: '3', title: 'Book React', isDone: false},
+          {id: '4', title: 'Book Redux', isDone: false},
+          {id: '5', title: 'Book Angular', isDone: false}
         ]
       })
 
-  const removeTask = (todoListID: number, newId: number) => {
+  const removeTask = (todoListID: string, newId: string) => {
     // setTasks(tasks.filter(task => task.id !== newId))
-    setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== newId)})
+    //setTasks({...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== newId)})
   }
 
 
-  const tasksFilter = (todoListID: number, nameButton: FilterValueType) => {
+  const tasksFilter = (todoListID: string, nameButton: FilterValueType) => {
 
     TodoListsDispatch(tasksFilterAC(todoListID, nameButton))
 
@@ -74,25 +75,25 @@ function App() {
 
 //добавляем таску
 
-  const addTask = (todoListID: number, newTaskTitle: string) => {
-    let newTask = {id: Math.random() * 100, title: newTaskTitle, isDone: false};
+  const addTask = (todoListID: string, newTaskTitle: string) => {
+    let newTask = {id: v4(), title: newTaskTitle, isDone: false};
     // setTasks([newTask, ...tasks])
     setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
   }
 
   //изменяем таску (изменяемый спан)
-  const updateTask = (todoListID: number, taskID: number, newTitle: string) => {
+  const updateTask = (todoListID: string, taskID: string, newTitle: string) => {
     setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === taskID ? {...el, title: newTitle} : el)})
   }
 
   //изменяем название листа
-  const updateList = (todoListID: number, newTitle: string) => {
+  const updateList = (todoListID: string, newTitle: string) => {
     // setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
     TodoListsDispatch(updateListAC(todoListID,newTitle))
   }
 
   //меняем статус в чекбоксе
-  const changeStatusCheckbox = (todoListID: number, currentID: number, eventStatus: boolean) => {
+  const changeStatusCheckbox = (todoListID: string, currentID: string, eventStatus: boolean) => {
     // setTasks(tasks.map((el) => el.id === currentID ? {...el, isDone: eventStatus} : el))
     setTasks({
       ...tasks,
@@ -101,7 +102,7 @@ function App() {
   }
 
   //удаляем весь лист
-  const removeTodoList = (todoListID: number) => {
+  const removeTodoList = (todoListID: string) => {
     // setTodoLists(todoLists.filter(el => el.id !== todoListID));
     // delete tasks[todoListID];
     TodoListsDispatch(removeTodoListAC(todoListID))
@@ -109,9 +110,9 @@ function App() {
 
   //добавляем целый лист
   const addTodoList = (title: string) => {
-    console.log('this is new todo list')
-    // let newID = Math.random() * 100;
-    // let newTodoList: TodoListsType = {id: newID, title: title, nameButton: 'All'};
+
+    let newID = v4();
+    let newTodoList: TodoListsType = {id: newID, title: title, nameButton: 'All'};
     // setTodoLists([newTodoList, ...todoLists]);
     // setTasks({...tasks, [newID]: []})
   }

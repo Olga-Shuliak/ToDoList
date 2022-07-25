@@ -12,20 +12,20 @@ import {Paper} from '@mui/material';
 
 
 type Todolist = {
-  todoListID: number
+  todoListID: string
   title: string
   tasks: Array<ObjInArray>
-  removeTask: (todoListID: number, id: number) => void
-  tasksFilter: (todoListID: number, nameButton: FilterValueType) => void
-  addTask: (todoListID: number, newTaskTitle: string) => void
-  updateTask: (todoListID: number, id: number, newTaskTitle: string) => void
-  updateList: (todoListID: number, newTitle: string) => void
-  changeStatusCheckbox: (todoListID: number, currentID: number, currentEvent: boolean) => void
+  removeTask: (todoListID: string, id: string) => void
+  tasksFilter: (todoListID: string, nameButton: FilterValueType) => void
+  addTask: (todoListID: string, newTaskTitle: string) => void
+  updateTask: (todoListID: string, id: string, newTaskTitle: string) => void
+  updateList: (todoListID: string, newTitle: string) => void
+  changeStatusCheckbox: (todoListID: string, currentID: string, currentEvent: boolean) => void
   nameButton: string
-  removeTodoList: (todoListID: number) => void
+  removeTodoList: (todoListID: string) => void
 }
 export type ObjInArray = {
-  id: number
+  id: string
   title: string
   isDone: boolean
 }
@@ -38,21 +38,21 @@ export const Todolist = (props: Todolist) => {
   }
 
 
-  const tasksFilterHandler = (todoListID: number, filterValue: FilterValueType) => {
+  const tasksFilterHandler = (todoListID: string, filterValue: FilterValueType) => {
     props.tasksFilter(todoListID, filterValue);
   }
 
-  const removeTaskHandler = (todoListID: number, id: number) => {
+  const removeTaskHandler = (todoListID: string, id: string) => {
     props.removeTask(todoListID, id)
   }
 
   //удаляем весь лист
-  const removeTodoListHandler = (todoListID: number) => {
+  const removeTodoListHandler = (todoListID: string) => {
     props.removeTodoList(todoListID)
   }
 
   //собираем данные для updateTask, updateList
-  const updateTaskHandler = (taskID: number, newTitle: string) => {
+  const updateTaskHandler = (taskID: string, newTitle: string) => {
     props.updateTask(props.todoListID, taskID, newTitle)
   }
   const updateListHandler = (newTitle: string) => {

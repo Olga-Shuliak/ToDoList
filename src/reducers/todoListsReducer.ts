@@ -1,4 +1,5 @@
 import {FilterValueType, TodoListsType} from '../App';
+import {v4} from 'uuid';
 
 
 //_______________________________________________________________________________________
@@ -14,7 +15,7 @@ type TodoListsReducerType =
 
 type tasksFilterACType = ReturnType<typeof tasksFilterAC>
 //тип не экшен криэйтера, а объекта, который он возвращает
-export const tasksFilterAC = (todoListID: number, nameButton: FilterValueType) => {
+export const tasksFilterAC = (todoListID: string, nameButton: FilterValueType) => {
   return {
     type: 'TASKS-FILTER',
     payload: {
@@ -27,7 +28,7 @@ export const tasksFilterAC = (todoListID: number, nameButton: FilterValueType) =
 
 
 type updateListACType = ReturnType<typeof updateListAC>
-export const updateListAC = (todoListID: number, newTitle: string) => {
+export const updateListAC = (todoListID: string, newTitle: string) => {
   return {
     type: 'UPDATE-LIST',
     payload: {
@@ -37,8 +38,8 @@ export const updateListAC = (todoListID: number, newTitle: string) => {
   } as const
 }
 
-type removeTodoListACType = ReturnType<typeof removeTodoListAC>
-export const removeTodoListAC = (todoListID: number) => {
+export type removeTodoListACType = ReturnType<typeof removeTodoListAC>
+export const removeTodoListAC = (todoListID: string) => {
   return {
     type: 'REMOVE-TODOLIST',
     payload: {
@@ -48,16 +49,16 @@ export const removeTodoListAC = (todoListID: number) => {
   } as const
 }
 
-type addTodoListACType = ReturnType<typeof addTodoListAC>
-export const addTodoListAC = (title: string)=> {
+export type addTodoListACType = ReturnType<typeof addTodoListAC>
+export const addTodoListAC = (title: string) => {
   return {
     type: 'ADD-TODOLIST',
     payload: {
-      title
+      title,
+      todoListID: v4()
     }
   } as const
 }
-
 
 
 //________________________________________________________________________________________________
@@ -84,8 +85,7 @@ export const todoListsReducer = (state: Array<TodoListsType>, action: TodoListsR
     }
 
     case 'ADD-TODOLIST': {
-      let newID = Math.random() * 100;
-      let newTodoList: TodoListsType = {id: newID, title: action.payload.title, nameButton: 'All'}
+      let newTodoList: TodoListsType = {id: action.payload.todoListID, title: action.payload.title, nameButton: 'All'}
       return [...state, newTodoList]
     }
 

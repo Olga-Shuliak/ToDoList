@@ -1,10 +1,10 @@
 import React, {ChangeEvent} from 'react';
 
 type CheckBoxPropsType = {
-  todoListID: number
+  todoListID: string
   taskIsDone: boolean
-  callBack: (todoListID: number, id: number, isChecked: boolean)=>void
-  id: number
+  callBack: (todoListID: string, id: string, isChecked: boolean)=>void
+  id: string
 }
 
 export const CheckBox = (props:CheckBoxPropsType) => {

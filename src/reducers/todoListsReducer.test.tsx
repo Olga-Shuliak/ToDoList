@@ -1,9 +1,10 @@
-import {TodoListsType} from '../App';
+import {TaskObjectType, TodoListsType} from '../App';
 import {addTodoListAC, removeTodoListAC, tasksFilterAC, todoListsReducer, updateListAC} from './todoListsReducer';
 
+
 test('correct todolist should be removed', ()=> {
-  let todoListID1 = 1;
-  let todoListID2 = 2;
+  let todoListID1 = '1';
+  let todoListID2 = '2';
 
   const startState: TodoListsType[]= [
     {id: todoListID1, title: 'What to learn', nameButton: 'All'},
@@ -16,8 +17,8 @@ test('correct todolist should be removed', ()=> {
   expect(endState[0].id).toBe(todoListID2);
 })
 test('correct todoList should be added', ()=> {
-  let todoListID1 = 1;
-  let todoListID2 = 2;
+  let todoListID1 = '1';
+  let todoListID2 = '2';
   let newTodoListTitle = 'New Todolist';
 
   const startState: TodoListsType[]= [
@@ -31,8 +32,8 @@ test('correct todoList should be added', ()=> {
   expect(endState[2].title).toBe(newTodoListTitle);
 })
 test('correct todoList should change its name', ()=> {
-  let todoListID1 = 1;
-  let todoListID2 = 2;
+  let todoListID1 = '1';
+  let todoListID2 = '2';
   let newTodoListTitle = 'New Todolist';
 
   const startState: TodoListsType[]= [
@@ -53,8 +54,8 @@ test('correct todoList should change its name', ()=> {
 })
 
 test('correct filter of todoList should changed', ()=> {
-  let todoListID1 = 1;
-  let todoListID2 = 2;
+  let todoListID1 = '1';
+  let todoListID2 = '2';
   let newNameButton = 'Completed';
 
   const startState: TodoListsType[]= [
@@ -68,3 +69,4 @@ test('correct filter of todoList should changed', ()=> {
   expect(endState[0].nameButton).toBe('All');
   expect(endState[1].nameButton).toBe('Completed');
 })
+
