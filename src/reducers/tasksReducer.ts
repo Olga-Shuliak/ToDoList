@@ -7,6 +7,7 @@ import {v4} from 'uuid';
 type TasksReducerType = removeTaskACType
     | addTaskACType
     | changeTaskStatusACType
+    | updateTaskACType
 
     | addTodoListACType
     | removeTodoListACType
@@ -15,6 +16,7 @@ type TasksReducerType = removeTaskACType
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 type addTaskACType = ReturnType<typeof addTaskAC>
 type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
+type updateTaskACType = ReturnType<typeof updateTaskAC>
 
 //___________________________________________Tasks Reducer_____________________________________________
 
@@ -44,6 +46,15 @@ export const tasksReducer = (state: TaskObjectType, action: TasksReducerType): T
               ...task,
               isDone: action.payload.eventStatus
             } : task)
+      }
+    }
+    case 'UPDATE-TASK': {
+      return {
+        ...state,
+        [action.payload.todoListID]: state[action.payload.todoListID]
+            .map(task => task.id === action.payload.taskID
+                ? {...task, title: action.payload.newTitle}
+                : task)
       }
     }
     case 'ADD-TODOLIST': {
@@ -96,4 +107,14 @@ export const changeTaskStatusAC = (todoListID: string, currentID: string, eventS
       eventStatus
     }
   } as const
+}
+export const updateTaskAC = (todoListID: string,  taskID: string, newTitle: string) => {
+  return {
+    type: 'UPDATE-TASK',
+    payload: {
+      todoListID,
+      taskID,
+      newTitle
+    }
+  }as const
 }

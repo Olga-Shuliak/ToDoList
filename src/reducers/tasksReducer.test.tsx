@@ -3,22 +3,25 @@ import {addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer} from './tasks
 import {addTodoListAC, removeTodoListAC, todoListsReducer} from './todoListsReducer';
 
 
-const startState: TaskObjectType = {
-  '1': [
-    {id: '1', title: 'HTML&CSS', isDone: true},
-    {id: '2', title: 'JS', isDone: true},
-    {id: '3', title: 'React', isDone: false},
-    {id: '4', title: 'Redux', isDone: false},
-    {id: '5', title: 'Angular', isDone: false}
-  ],
-  '2': [
-    {id: '1', title: 'Book HTML&CSS', isDone: true},
-    {id: '2', title: 'Book JS', isDone: true},
-    {id: '3', title: 'Book React', isDone: false},
-    {id: '4', title: 'Book Redux', isDone: false},
-    {id: '5', title: 'Book Angular', isDone: false}
-  ]
-};
+let startState: TaskObjectType
+    beforeEach(()=> {
+      startState = {
+        '1': [
+          {id: '1', title: 'HTML&CSS', isDone: true},
+          {id: '2', title: 'JS', isDone: true},
+          {id: '3', title: 'React', isDone: false},
+          {id: '4', title: 'Redux', isDone: false},
+          {id: '5', title: 'Angular', isDone: false}
+        ],
+        '2': [
+          {id: '1', title: 'Book HTML&CSS', isDone: true},
+          {id: '2', title: 'Book JS', isDone: true},
+          {id: '3', title: 'Book React', isDone: false},
+          {id: '4', title: 'Book Redux', isDone: false},
+          {id: '5', title: 'Book Angular', isDone: false}
+        ]
+    }
+      })
 
 //________________________________________________________________________________
 
