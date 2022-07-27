@@ -2,6 +2,9 @@ import {FilterValueType, TodoListsType} from '../App';
 import {v4} from 'uuid';
 
 
+let initialState: TodoListsType[] = []
+
+
 //_______________________________________________________________________________________
 //_________________________________types and AC__________________________________________
 
@@ -63,7 +66,7 @@ export const addTodoListAC = (title: string) => {
 
 //________________________________________________________________________________________________
 
-export const todoListsReducer = (state: Array<TodoListsType>, action: TodoListsReducerType): TodoListsType[] => {
+export const todoListsReducer = (state = initialState, action: TodoListsReducerType): TodoListsType[] => {
   switch (action.type) {
     case 'TASKS-FILTER': {
       // !!! всегда вазвращаем стейт
