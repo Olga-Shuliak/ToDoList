@@ -7,7 +7,9 @@ type EddItemFormPropsType = {
 }
 
 
-export const EddItemForm = (props: EddItemFormPropsType) => {
+export const EddItemForm = React.memo((props: EddItemFormPropsType) => {
+
+  //console.log('EddItemForm');
 
   let [newTaskTitle, setNewTaskTitle] = useState('')
 
@@ -26,6 +28,7 @@ export const EddItemForm = (props: EddItemFormPropsType) => {
 
   const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     // if (event.charCode===13) {
+    if (error) setError(null);
     if (event.key == 'Enter') {
       addTask();
     }
@@ -54,4 +57,4 @@ export const EddItemForm = (props: EddItemFormPropsType) => {
 
       </div>
   )
-}
+})

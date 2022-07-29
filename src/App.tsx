@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import ButtonAppBar from './components/ButtonAppBar';
 import {ObjInArray, Todolist} from './components/Todolist';
@@ -9,10 +9,9 @@ import {
   addTodoListAC,
   removeTodoListAC,
   tasksFilterAC,
-  todoListsReducer,
   updateListAC
 } from './reducers/todoListsReducer';
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer, updateTaskAC} from './reducers/tasksReducer';
+import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC} from './reducers/tasksReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 
@@ -68,47 +67,49 @@ let todoLists = useSelector<AppRootStateType, Array<TodoListsType>>(state => sta
   //     })
 
   //удаление таски
-  const removeTask = (todoListID: string, newId: string) => {
+  const removeTask = useCallback((todoListID: string, newId: string) => {
     dispatch(removeTaskAC(todoListID, newId));
-  }
+  }, [dispatch])
 
 //фильтр кнопки
-  const tasksFilter = (todoListID: string, nameButton: FilterValueType) => {
+  const tasksFilter = useCallback((todoListID: string, nameButton: FilterValueType) => {
     dispatch(tasksFilterAC(todoListID, nameButton))
-  }
+  }, [dispatch])
 
 //добавляем таску
-  const addTask = (todoListID: string, newTaskTitle: string) => {
+  const addTask = useCallback((todoListID: string, newTaskTitle: string) => {
     dispatch(addTaskAC(todoListID, newTaskTitle));
-  }
+  }, [dispatch])
 
-  //изменяем таску (изменяемый спан)
-  const updateTask = (todoListID: string, taskID: string, newTitle: string) => {
+  //изменяем таску
+  const updateTask = useCallback((todoListID: string, taskID: string, newTitle: string) => {
     dispatch(updateTaskAC(todoListID, taskID, newTitle))
-  }
+  }, [dispatch])
 
   //изменяем название листа
-  const updateList = (todoListID: string, newTitle: string) => {
+  const updateList = useCallback((todoListID: string, newTitle: string) => {
     dispatch(updateListAC(todoListID, newTitle))
-  }
+  }, [dispatch])
 
-  //меняем статус в чекбоксе
-  const changeStatusCheckbox = (todoListID: string, currentID: string, eventStatus: boolean) => {
+  //меняем статус
+  const changeStatusCheckbox = useCallback((todoListID: string, currentID: string, eventStatus: boolean) => {
     dispatch(changeTaskStatusAC(todoListID, currentID, eventStatus))
-  }
+  }, [dispatch])
 
 
   //удаляем весь лист
-  const removeTodoList = (todoListID: string) => {
+  const removeTodoList = useCallback((todoListID: string) => {
     let action = removeTodoListAC(todoListID);
     dispatch(action);
-  }
+  }, [dispatch])
 
   //добавляем целый лист
-  const addTodoList = (title: string) => {
+  const addTodoList = useCallback((title: string) => {
     let action = addTodoListAC(title);
     dispatch(action);
-  }
+  }, [
+    dispatch
+  ])
 
   return (
       <div className="App">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import classes from './Todolist.module.css';
 import {CheckBox} from './CheckBox';
 import {FilterValueType} from '../App';
@@ -29,13 +29,14 @@ export type ObjInArray = {
   title: string
   isDone: boolean
 }
+// memo = React.memo
+export const Todolist = memo((props: Todolist) => {
 
-export const Todolist = (props: Todolist) => {
+console.log('Todolist')
 
-
-  const addTaskHandler = (newTaskTitle: string) => {
+  const addTaskHandler = useCallback((newTaskTitle: string) => {
     props.addTask(props.todoListID, newTaskTitle);
-  }
+  },[props.todoListID, props.addTask])
 
 
   const tasksFilterHandler = (todoListID: string, filterValue: FilterValueType) => {
@@ -108,7 +109,7 @@ export const Todolist = (props: Todolist) => {
                             id={task.id}/>
 
                   {/*<span>{task.title}</span>*/}
-                  {/*делаем заменяемый спан*/}
+                  {/*делаем заменяемый span*/}
                   <EditableSpan oldTitle={task.title}
                                 callback={
                                   (newTaskTitle: string) => updateTaskHandler(task.id, newTaskTitle)
@@ -157,4 +158,4 @@ export const Todolist = (props: Todolist) => {
         </div>
       </Paper>
   )
-}
+})
