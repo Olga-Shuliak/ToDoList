@@ -9,8 +9,6 @@ type EddItemFormPropsType = {
 
 export const EddItemForm = React.memo((props: EddItemFormPropsType) => {
 
-  //console.log('EddItemForm');
-
   let [newTaskTitle, setNewTaskTitle] = useState('')
 
   let [error, setError] = useState<string | null>('')

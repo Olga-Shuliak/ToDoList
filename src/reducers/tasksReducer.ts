@@ -27,7 +27,7 @@ export const tasksReducer = (state = initialState, action: TasksReducerType): Ta
   switch (action.type) {
 
     case 'REMOVE-TASK': {
-      //{...tasks, [todoListID]: tasks[todoListID].filter(el => el.id !== newId)}
+      //{...tasks, [todoListID]: tasks[todoListID].filter(el => el.todoListID !== newId)}
       return {
         ...state,
         [action.payload.todoListID]: state[action.payload.todoListID].filter(idTask => idTask.id !== action.payload.newId)

@@ -1,8 +1,8 @@
-import {FilterValueType, TodoListsType} from '../App';
+import {FilterValueType, TodoListType} from '../App';
 import {v4} from 'uuid';
 
 
-let initialState: TodoListsType[] = []
+let initialState: TodoListType[] = []
 
 
 //_______________________________________________________________________________________
@@ -66,29 +66,29 @@ export const addTodoListAC = (title: string) => {
 
 //________________________________________________________________________________________________
 
-export const todoListsReducer = (state = initialState, action: TodoListsReducerType): TodoListsType[] => {
+export const todoListsReducer = (state = initialState, action: TodoListsReducerType): TodoListType[] => {
   switch (action.type) {
     case 'TASKS-FILTER': {
       // !!! всегда вазвращаем стейт
       //return state
 
-      // setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, nameButton: nameButton} : el))
+      // setTodoLists(todoLists.map(el => el.todoListID === todoListID ? {...el, nameButton: nameButton} : el))
 
-      return state.map(el => el.id === action.payload.todoListID ? {...el, nameButton: action.payload.nameButton} : el)
+      return state.map(el => el.todoListID === action.payload.todoListID ? {...el, nameButton: action.payload.nameButton} : el)
     }
 
     case 'UPDATE-LIST': {
-      return state.map(el => el.id === action.payload.todoListID ? {...el, title: action.payload.newTitle} : el)
+      return state.map(el => el.todoListID === action.payload.todoListID ? {...el, title: action.payload.newTitle} : el)
     }
 
     case 'REMOVE-TODOLIST': {
-      // setTodoLists(todoLists.filter(el => el.id !== todoListID));
+      // setTodoLists(todoLists.filter(el => el.todoListID !== todoListID));
       // delete tasks[todoListID];
-      return state.filter(el => el.id !== action.payload.todoListID);
+      return state.filter(el => el.todoListID !== action.payload.todoListID);
     }
 
     case 'ADD-TODOLIST': {
-      let newTodoList: TodoListsType = {id: action.payload.todoListID, title: action.payload.title, nameButton: 'All'}
+      let newTodoList: TodoListType = {todoListID: action.payload.todoListID, title: action.payload.title, nameButton: 'All'}
       return [...state, newTodoList]
     }
 

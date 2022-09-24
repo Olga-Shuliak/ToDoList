@@ -16,7 +16,10 @@ window.store = store;
 
 
 // store = {
-//   state: {},
+//   state: {
+//      tasks: {},
+//      todoLists: []
+//   }
 //   dispatch() {},
 //   getState() {},
 //   subscribe() {}
