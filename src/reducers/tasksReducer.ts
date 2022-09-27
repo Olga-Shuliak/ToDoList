@@ -25,14 +25,11 @@ type updateTaskACType = ReturnType<typeof updateTaskAC>
 
 export const tasksReducer = (state = initialState, action: TasksReducerType): TaskObjectType => {
   switch (action.type) {
-
     case 'REMOVE-TASK': {
-      //{...tasks, [todoListID]: tasks[todoListID].filter(el => el.todoListID !== newId)}
       return {
         ...state,
         [action.payload.todoListID]: state[action.payload.todoListID].filter(idTask => idTask.id !== action.payload.newId)
       }
-
     }
     case 'ADD-TASK': {
       let newTask = {id: v4(), title: action.payload.newTaskTitle, isDone: false};

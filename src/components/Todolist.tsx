@@ -1,6 +1,5 @@
 import React, {memo} from 'react';
 import classes from './Todolist.module.css';
-import {CheckBox} from './CheckBox';
 import {FilterValueType, TodoListType} from '../App';
 import {EditableSpan} from './EditableSpan';
 import {EddItemForm} from './EddItemForm';
@@ -11,24 +10,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Paper} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC} from '../reducers/tasksReducer';
+import {addTaskAC} from '../reducers/tasksReducer';
 import {removeTodoListAC, tasksFilterAC, updateListAC} from '../reducers/todoListsReducer';
+import {Task} from './Task';
 
 
 type TodolistType = {
   todoList: TodoListType
-  //___________было так
-  // todoListID: string
-  // title: string
-  // tasks: Array<TaskType>
-  // removeTask: (todoListID: string, todoListID: string) => void
-  // tasksFilter: (todoListID: string, nameButton: FilterValueType) => void
-  // addTask: (todoListID: string, newTaskTitle: string) => void
-  // updateTask: (todoListID: string, todoListID: string, newTaskTitle: string) => void
-  // updateList: (todoListID: string, newTitle: string) => void
-  // changeStatusCheckbox: (todoListID: string, currentID: string, currentEvent: boolean) => void
-  // nameButton: string
-  // removeTodoList: (todoListID: string) => void
 }
 export type TaskType = {
   id: string
@@ -64,13 +52,13 @@ export const Todolist = memo(({todoList}: TodolistType) => {
     tasksForTodoList = tasks.filter(task => task.isDone)
   }
 
-  const changeStatusCheckbox = (todoListID: string, currentID: string, eventStatus: boolean) => {
-    dispatch(changeTaskStatusAC(todoListID, currentID, eventStatus))
-  }
+  // const changeStatusCheckbox = (todoListID: string, currentID: string, eventStatus: boolean) => {
+  //   dispatch(changeTaskStatusAC(todoListID, currentID, eventStatus))
+  // }
 
-  const removeTaskHandler = (todoListID: string, newId: string) => {
-    dispatch(removeTaskAC(todoListID, newId));
-  }
+  // const removeTaskHandler = (todoListID: string, newId: string) => {
+  //   dispatch(removeTaskAC(todoListID, newId));
+  // }
 
   //удаляем весь лист
   const removeTodoListHandler = (todoListID: string) => {
@@ -79,13 +67,12 @@ export const Todolist = memo(({todoList}: TodolistType) => {
   }
 
   //собираем данные для updateTask, updateList
-  const updateTaskHandler = (taskID: string, newTitle: string) => {
-    dispatch(updateTaskAC(todoListID, taskID, newTitle))
-  }
+  // const updateTaskHandler = (taskID: string, newTitle: string) => {
+  //   dispatch(updateTaskAC(todoListID, taskID, newTitle))
+  // }
   const updateListHandler = (newTitle: string) => {
     dispatch(updateListAC(todoListID, newTitle))
   }
-
 
 
   return (
@@ -108,28 +95,31 @@ export const Todolist = memo(({todoList}: TodolistType) => {
         <ul className={classes.tasks}>
           {tasksForTodoList.map((task) => {
             return (
-                <li key={todoListID}
-                    className={task.isDone ? classes.isDane : ''}>
-
-                  <Button color="primary"
-                          variant="text"
-                          onClick={() => removeTaskHandler(todoListID, task.id)}>x</Button>
-
-
-                  <CheckBox taskIsDone={task.isDone}
-                            todoListID={todoListID}
-                            callBack={changeStatusCheckbox}
-                            id={task.id}/>
-
-
-                  {/*делаем заменяемый span*/}
-                  <EditableSpan oldTitle={task.title}
-                                callback={
-                                  (newTaskTitle: string) => updateTaskHandler(todoListID, newTaskTitle)
-                                }/>
-
-                </li>
-                //<Task />
+                // <li key={todoListID}
+                //     className={task.isDone ? classes.isDane : ''}>
+                //
+                //   <Button color="primary"
+                //           variant="text"
+                //           onClick={() => removeTaskHandler(todoListID, task.id)}>x</Button>
+                //
+                //
+                //   <CheckBox taskIsDone={task.isDone}
+                //             todoListID={todoListID}
+                //             callBack={changeStatusCheckbox}
+                //             id={task.id}/>
+                //
+                //
+                //   {/*делаем заменяемый span*/}
+                //   <EditableSpan oldTitle={task.title}
+                //                 callback={
+                //                   (newTaskTitle: string) => updateTaskHandler(todoListID, newTaskTitle)
+                //                 }/>
+                //
+                // </li>
+                <Task
+                    key={task.id}
+                    task={task}
+                    todoListID={todoListID}/>
             )
           })}
         </ul>

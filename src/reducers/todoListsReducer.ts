@@ -26,7 +26,6 @@ export const tasksFilterAC = (todoListID: string, nameButton: FilterValueType) =
       nameButton: nameButton
     }
   } as const
-  // не забываем !!! as const !!!
 }
 
 
@@ -68,12 +67,8 @@ export const addTodoListAC = (title: string) => {
 
 export const todoListsReducer = (state = initialState, action: TodoListsReducerType): TodoListType[] => {
   switch (action.type) {
+
     case 'TASKS-FILTER': {
-      // !!! всегда вазвращаем стейт
-      //return state
-
-      // setTodoLists(todoLists.map(el => el.todoListID === todoListID ? {...el, nameButton: nameButton} : el))
-
       return state.map(el => el.todoListID === action.payload.todoListID ? {...el, nameButton: action.payload.nameButton} : el)
     }
 
@@ -82,8 +77,6 @@ export const todoListsReducer = (state = initialState, action: TodoListsReducerT
     }
 
     case 'REMOVE-TODOLIST': {
-      // setTodoLists(todoLists.filter(el => el.todoListID !== todoListID));
-      // delete tasks[todoListID];
       return state.filter(el => el.todoListID !== action.payload.todoListID);
     }
 

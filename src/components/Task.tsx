@@ -5,13 +5,10 @@ import {EditableSpan} from './EditableSpan';
 import React, {memo, useCallback} from 'react';
 import {TaskType} from './Todolist';
 import {useDispatch} from 'react-redux';
-import {removeTaskAC, updateTaskAC} from '../reducers/tasksReducer';
+import {changeTaskStatusAC, removeTaskAC, updateTaskAC} from '../reducers/tasksReducer';
 
 type TaskPropsType = {
   task: TaskType
-  // removeTask: (taskID: string)=>void
-  // changeStatusCheckbox: (todoListID: string, currentID: string, currentEvent: boolean) => void
-  // updateTask: (taskID: string, newTitle: string)=>void
   todoListID: string
 }
 
@@ -28,29 +25,32 @@ export const Task = memo(({task, todoListID}: TaskPropsType) => {
     dispatch(updateTaskAC(todoListID, taskID, newTitle))
   }
 
+  const changeStatusCheckbox = (todoListID: string, currentID: string, eventStatus: boolean) => {
+    dispatch(changeTaskStatusAC(todoListID, currentID, eventStatus))
+  }
 
   return (
-      // <li key={task.id}
-      //     className={task.isDone ? classes.isDane : ''}>
-      //
-      //   <Button color="primary"
-      //           variant="text"
-      //           onClick={() => removeTaskHandler()}>x</Button>
-      //
-      //
-      //   <CheckBox taskIsDone={task.isDone}
-      //             todoListID={todoListID}
-      //             callBack={changeStatusCheckbox}
-      //             id={task.id}/>
-      //
-      //
-      //   {/*делаем заменяемый span*/}
-      //   <EditableSpan oldTitle={task.title}
-      //                 callback={
-      //                   (newTaskTitle: string) => updateTaskHandler(task.id, newTaskTitle)
-      //                 }/>
-      //
-      // </li>
-      <div>Hello, component Task will be here</div>
+      <li key={task.id}
+          className={task.isDone ? classes.isDane : ''}>
+
+        <Button color="primary"
+                variant="text"
+                onClick={() => removeTaskHandler()}>x</Button>
+
+
+        <CheckBox taskIsDone={task.isDone}
+                  todoListID={todoListID}
+                  callBack={changeStatusCheckbox}
+                  id={task.id}/>
+
+
+        {/*делаем заменяемый span*/}
+        <EditableSpan oldTitle={task.title}
+                      callback={
+                        (newTaskTitle: string) => updateTaskHandler(task.id, newTaskTitle)
+                      }/>
+
+      </li>
+
   )
 })
